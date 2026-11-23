@@ -19,7 +19,23 @@ Satu file `index.html`, tanpa build, tanpa server, tanpa aplikasi berbayar. Data
 | **Alert** | Log sinyal, kirim sinyal/pesan tes ke Telegram, auto-scan tiap close bar eksekusi / 15 menit / 1 jam |
 | **Pengaturan** | Semua parameter setup, filter, risiko, biaya, endpoint Binance, Telegram |
 
-Bahasa EN/ID dan tema terang/gelap di header. Harga live diperbarui tiap 15 detik.
+Bahasa EN/ID dan tema terang/gelap di header.
+
+## WebSocket (real-time)
+
+Aplikasi membuka satu sambungan WebSocket ke Binance (`wss://data-stream.binance.vision`, atau `stream.binance.com` / `stream.binance.us` sesuai endpoint di Pengaturan). Binance yang mengirim data setiap ada perubahan, jadi aplikasi tidak perlu terus bertanya.
+
+| Stream | Dipakai untuk |
+|---|---|
+| `<pair>@miniTicker` untuk semua pair yang di-scan + BTC | Harga live di dashboard, papan sinyal, scanner, trading plan, garis NOW di chart |
+| `btcusdt@kline_<tf eksekusi>` | Deteksi candle close → **auto-scan ±3 detik setelah close** |
+| `<pair>@kline_<tf>` untuk pair di dashboard & tab Chart | Candle yang sedang terbentuk (garis putus-putus) di chart |
+
+- Daftar stream diperbarui otomatis (SUBSCRIBE/UNSUBSCRIBE) setelah setiap scan atau saat ganti pair di Chart.
+- Layar digambar ulang maksimal 1× per detik agar ringan di HP.
+- Jika sambungan putus: kembali ke polling REST tiap 15 detik dan reconnect otomatis (jeda 1, 2, 4 … maks 30 detik). Jika 60 detik tanpa data, sambungan dibuka ulang. Saat tab dibuka lagi, langsung tersambung ulang.
+- Status di header: *WebSocket live* / *menyambung* / *putus · polling*. Bisa dimatikan di **Pengaturan → Data dan Telegram**.
+- Hanya data pasar publik: tidak butuh API key, tidak ada order.
 
 ## Timeframe (multi-timeframe Bab 2)
 
@@ -95,7 +111,7 @@ Token hanya tersimpan di localStorage browser, tidak ikut ter-upload.
 
 ## Batasan
 
-- Auto-scan hanya berjalan selama halaman terbuka (halaman statis tidak bisa berjalan di background).
+- Auto-scan dan WebSocket hanya berjalan selama halaman terbuka (halaman statis tidak bisa berjalan di background). Browser HP bisa menutup sambungan saat layar mati; aplikasi menyambung ulang begitu dibuka lagi.
 - Endpoint default `data-api.binance.vision`. Jika status "Data demo", ganti endpoint di Pengaturan.
 - Ukuran posisi dibatasi alokasi maks (default 100% modal, spot tanpa leverage). Dengan stop scalping yang sempit, risiko nyata sering di bawah 1%; kartu plan menampilkan peringatannya.
 - Tidak ada kalender ekonomi; aturan berita dari buku harus dicek manual.

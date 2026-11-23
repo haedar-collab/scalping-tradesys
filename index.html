@@ -313,6 +313,7 @@ td small{font-size:12px;opacity:.85;margin-left:2px}
       <label><span data-i="cf_token"></span><input id="k_tgToken" type="password" autocomplete="off" placeholder="123456:ABC…"></label>
       <label><span data-i="cf_chat"></span><input id="k_tgChat" autocomplete="off" placeholder="123456789"></label>
       <label class="cb"><input id="k_tgOn" type="checkbox"><span data-i="cf_tgon"></span></label>
+      <label class="cb"><input id="k_ws" type="checkbox"><span data-i="cf_ws"></span></label>
     </div><p class="note" data-i="cf_tgnote"></p></fieldset>
     <fieldset><legend data-i="universe"></legend><div class="form">
       <label style="grid-column:1/-1"><span data-i="cf_watch"></span><input id="k_watch"></label>
@@ -658,7 +659,7 @@ en:{sub:'Scalping Framework · Binance spot · long only',scan:'Scan now',th_lig
  test_sig:'Send test signal',test_msg:'Send test message',copy_all:'Copy all',clear:'Clear log',auto:'Auto-scan while open',off:'Off',every_bar:'Every execution bar close',every15:'Every 15 minutes',every60:'Every hour',noalerts:'No alerts yet.',
  tg_need:'Set the bot token and chat ID in Settings first.',tg_ok:'Telegram connected.',tg_testline:'TEST SIGNAL · not a live trade',tg_hello:'Tradesys Edge Scalp: Telegram connection OK.',
  tgl_entry:'Entry',tgl_sl:'Stop loss',tgl_size:'Size',tgl_risk:'risk',tgl_mgmt:'Plan',tgl_score:'Score',tgl_now:'Now',tgl_prob:'Historical probability',tgl_conf:'Confidence',tgl_cost:'Cost',
- cf_data:'Data and Telegram',cf_endpoint:'Binance endpoint',cf_token:'Telegram bot token',cf_chat:'Telegram chat ID',cf_tgon:'Send new live signals to Telegram',cf_tgnote:'The token is stored only in this browser (localStorage). Use a bot made for alerts only.',
+ cf_data:'Data and Telegram',cf_endpoint:'Binance endpoint',cf_token:'Telegram bot token',cf_chat:'Telegram chat ID',cf_tgon:'Send new live signals to Telegram',cf_ws:'Real-time prices via WebSocket (falls back to polling every 15 s)',ws_live:'WebSocket live',ws_connecting:'WebSocket connecting…',ws_down:'WebSocket down · polling',ws_off:'REST polling',px_rt:'real-time (WebSocket)',cf_tgnote:'The token is stored only in this browser (localStorage). Use a bot made for alerts only.',
  cf_watch:'Watchlist (comma separated)',cf_topN:'Top pairs in all-USDT mode',cf_minVol:'Min 24h volume (USDT)',
  cf_filters:'Setups and filters',cf_useTF:'Use trend pullback',cf_useBO:'Use breakout',cf_useRV:'Use reversal',cf_sessionOnly:'Signals only 14:00–22:00 WIB (London/NY)',cf_atrDead:'ATR dead below (× 100-bar avg)',cf_atrHigh:'ATR high above (half size)',cf_atrExtreme:'ATR extreme above (no trade)',cf_costMult:'TP1 must be ≥ this × round-trip cost',cf_maxBars:'Time stop (execution bars)',
  cf_tfMinScore:'Minimum trend score (4–5 = half size)',cf_slAtr:'Minimum stop (× ATR)',cf_minRR:'Minimum R:R to TP1',cf_boMode:'Entry mode',cf_boVol:'Volume multiple (F2)',cf_boSlAtr:'Stop inside the range (× ATR)',cf_rvExt:'S1 distance below EMA 21 (× ATR)',cf_rvMaxSl:'Maximum stop (× ATR)',
@@ -726,7 +727,7 @@ id:{sub:'Scalping Framework · Binance spot · hanya long',scan:'Scan sekarang',
  test_sig:'Kirim sinyal tes',test_msg:'Kirim pesan tes',copy_all:'Salin semua',clear:'Hapus log',auto:'Auto-scan selama terbuka',off:'Mati',every_bar:'Tiap close bar eksekusi',every15:'Tiap 15 menit',every60:'Tiap 1 jam',noalerts:'Belum ada alert.',
  tg_need:'Isi bot token dan chat ID di Pengaturan dulu.',tg_ok:'Telegram terhubung.',tg_testline:'SINYAL TES · bukan trade live',tg_hello:'Tradesys Edge Scalp: koneksi Telegram OK.',
  tgl_entry:'Entry',tgl_sl:'Stop loss',tgl_size:'Jumlah',tgl_risk:'risiko',tgl_mgmt:'Plan',tgl_score:'Skor',tgl_now:'Sekarang',tgl_prob:'Probabilitas historis',tgl_conf:'Keyakinan',tgl_cost:'Biaya',
- cf_data:'Data dan Telegram',cf_endpoint:'Endpoint Binance',cf_token:'Bot token Telegram',cf_chat:'Chat ID Telegram',cf_tgon:'Kirim sinyal live baru ke Telegram',cf_tgnote:'Token hanya disimpan di browser ini (localStorage). Pakai bot khusus untuk alert.',
+ cf_data:'Data dan Telegram',cf_endpoint:'Endpoint Binance',cf_token:'Bot token Telegram',cf_chat:'Chat ID Telegram',cf_tgon:'Kirim sinyal live baru ke Telegram',cf_ws:'Harga real-time via WebSocket (kembali ke polling 15 detik jika putus)',ws_live:'WebSocket live',ws_connecting:'WebSocket menyambung…',ws_down:'WebSocket putus · polling',ws_off:'Polling REST',px_rt:'real-time (WebSocket)',cf_tgnote:'Token hanya disimpan di browser ini (localStorage). Pakai bot khusus untuk alert.',
  cf_watch:'Watchlist (pisahkan dengan koma)',cf_topN:'Jumlah pair teratas (mode semua USDT)',cf_minVol:'Volume 24 jam minimum (USDT)',
  cf_filters:'Setup dan filter',cf_useTF:'Pakai trend pullback',cf_useBO:'Pakai breakout',cf_useRV:'Pakai reversal',cf_sessionOnly:'Sinyal hanya 14.00–22.00 WIB (London/NY)',cf_atrDead:'ATR mati di bawah (× rata-rata 100 bar)',cf_atrHigh:'ATR tinggi di atas (setengah ukuran)',cf_atrExtreme:'ATR ekstrem di atas (tidak trading)',cf_costMult:'TP1 minimal × biaya bolak-balik',cf_maxBars:'Batas waktu (bar eksekusi)',
  cf_tfMinScore:'Skor tren minimum (4–5 = setengah ukuran)',cf_slAtr:'Stop minimum (× ATR)',cf_minRR:'R:R minimum ke TP1',cf_boMode:'Mode entry',cf_boVol:'Kelipatan volume (F2)',cf_boSlAtr:'Stop di dalam range (× ATR)',cf_rvExt:'Jarak S1 di bawah EMA 21 (× ATR)',cf_rvMaxSl:'Stop maksimum (× ATR)',
@@ -736,7 +737,7 @@ id:{sub:'Scalping Framework · Binance spot · hanya long',scan:'Scan sekarang',
 const DEF={mode:'5m',scope:'watch',watch:'BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT,DOGEUSDT,ADAUSDT,AVAXUSDT,LINKUSDT,SUIUSDT,TRXUSDT,LTCUSDT,NEARUSDT,APTUSDT,ARBUSDT,OPUSDT,INJUSDT,FETUSDT,TONUSDT,PEPEUSDT',topN:30,minVol:20000000,
  useTF:true,useBO:true,useRV:true,sessionOnly:false,atrDead:0.5,atrHigh:1.8,atrExtreme:3,costMult:3,maxBars:12,
  tfMinScore:6,slAtr:1.5,minRRtf:1.5,boMode:'conservative',boVol:1.2,boSlAtr:1.2,minRRbo:1.5,rvExt:2,rvMaxSl:3,minRRrv:2,
- equity:1000,risk:1,maxAlloc:100,dayLoss:3,dayTarget:3,maxTrades:10,fee:0.1,slip:0.02,btGuard:true,auto:'bar',endpoint:'https://data-api.binance.vision',tgOn:false,tgToken:'',tgChat:''};
+ equity:1000,risk:1,maxAlloc:100,dayLoss:3,dayTarget:3,maxTrades:10,fee:0.1,slip:0.02,btGuard:true,auto:'bar',endpoint:'https://data-api.binance.vision',tgOn:false,tgToken:'',tgChat:'',ws:true};
 const LS={get(k,d){try{const v=localStorage.getItem('tses_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tses_'+k,JSON.stringify(v))}catch(e){}}};
 let cfg={...DEF,...LS.get('cfg',{})};
 let lang=LS.get('lang','id');
@@ -787,13 +788,13 @@ async function loadFilters(syms){const need=syms.filter(x=>!S.filt[x]);if(!live|
 
 /* ---------- live price ---------- */
 const nowPx=sym=>{if(S.px[sym])return S.px[sym];const X=S.cache[sym+S.scanMode]||S.cache[sym+cfg.mode];return X?X.E.c[X.E.n-1]:NaN};
-async function refreshPrices(){if(!live||document.hidden)return;const syms=[...new Set(S.results.map(r=>r.sym).concat(['BTCUSDT']).concat(Object.keys(S.cache).map(k=>k.replace(/(5m|15m)$/,''))).filter(x=>/^[A-Z0-9]{2,20}USDT$/.test(x)))].slice(0,100);
+async function refreshPrices(force){if(!live||(document.hidden&&!force)||(WS.state==='live'&&!force))return;const syms=[...new Set(S.results.map(r=>r.sym).concat(['BTCUSDT']).concat(Object.keys(S.cache).map(k=>k.replace(/(5m|15m)$/,''))).filter(x=>/^[A-Z0-9]{2,20}USDT$/.test(x)))].slice(0,100);
  try{const a=await api('/api/v3/ticker/price',{symbols:JSON.stringify(syms)});if(Array.isArray(a)){for(const x of a)S.px[x.symbol]=+x.price;S.pxAt=Date.now();paintPrices()}}catch(e){}}
 function pstatus(s,p){if(!isFinite(p))return null;if(p<=s.stop)return['bad','st_invalid'];if(p>=s.tp1)return['bad','st_tp1'];if(s.entryType==='limit'&&p>s.entry*1.0005)return['wn','st_wait'];if(p>s.maxChase)return['wn','st_chase'];if(p<s.entry*0.999)return['wn','st_below'];if(p<=s.entry*1.001)return['ok','st_inzone'];return['ok','st_above']}
 function paintPrices(){for(const el of document.querySelectorAll('[data-px]'))el.textContent=fmtP(nowPx(el.dataset.px));
  for(const el of document.querySelectorAll('[data-pxe]')){const v=+el.dataset.pxe/nowPx(el.dataset.s)-1;el.textContent=pct(v,2)}
  for(const el of document.querySelectorAll('[data-pst]')){const r=S.results.find(x=>x.sym===el.dataset.pst);const st=r&&r.sig?pstatus(r.sig,nowPx(r.sym)):null;el.className='stt '+(st?st[0]:'');el.textContent=st?t(st[1]):''}
- const pa=$('pxAge');if(pa)pa.textContent=live&&S.pxAt?t('upd')+' '+hm(S.pxAt):t('last_close');
+ const pa=$('pxAge');if(pa)pa.textContent=pxAgeTxt();
  for(const [el,d] of figs)drawChart(el,d)}
 
 /* ---------- daily guard (book Bab 1, 8, 9) ---------- */
@@ -842,11 +843,48 @@ async function sendTg(html){if(!cfg.tgToken||!cfg.tgChat)throw new Error(t('tg_n
  const j=await r.json().catch(()=>({}));if(!j.ok)throw new Error(j.description||('HTTP '+r.status));return j}
 function flash(btn,txt,ms=2200){const o=btn.dataset.i?t(btn.dataset.i):btn.textContent;btn.textContent=txt;setTimeout(()=>{btn.textContent=btn.dataset.i?t(btn.dataset.i):o},ms)}
 
+/* ---------- WebSocket: Binance market streams (push, no polling) ---------- */
+const WS={sock:null,state:'off',subs:new Set(),retry:0,timer:null,id:1,last:0,dirty:false,closing:false,barSeen:0};
+S.kl={};S.chart=null;
+function wsBase(){const e=cfg.endpoint;if(/binance\.us/.test(e))return'wss://stream.binance.us:9443';if(/data-api\.binance\.vision/.test(e))return'wss://data-stream.binance.vision';return'wss://stream.binance.com:9443'}
+function wsWanted(){const st=new Set(),E=MODES[cfg.mode].E,ok=x=>/^[A-Z0-9]{2,20}USDT$/.test(x||'');
+ const syms=new Set(S.results.map(r=>r.sym));syms.add('BTCUSDT');for(const a of S.alerts.slice(0,10))syms.add(a.sym);
+ for(const x of syms)if(ok(x))st.add(x.toLowerCase()+'@miniTicker');
+ st.add('btcusdt@kline_'+E);if(ok(S.dSym))st.add(S.dSym.toLowerCase()+'@kline_'+E);
+ if(S.chart&&ok(S.chart.sym)){st.add(S.chart.sym.toLowerCase()+'@kline_'+S.chart.tf);st.add(S.chart.sym.toLowerCase()+'@miniTicker')}
+ return[...st].slice(0,200)}
+function wsSend(method,params){for(let k=0;k<params.length;k+=100){const p=params.slice(k,k+100);setTimeout(()=>{if(WS.sock&&WS.sock.readyState===1)WS.sock.send(JSON.stringify({method,params:p,id:WS.id++}))},k*3)}}
+function wsSync(){
+ if(!live||!cfg.ws||typeof WebSocket==='undefined'){wsClose();return}
+ const want=wsWanted();
+ if(!WS.sock||WS.sock.readyState>1){wsConnect(want);return}
+ if(WS.sock.readyState!==1)return;
+ const add=want.filter(x=>!WS.subs.has(x)),del=[...WS.subs].filter(x=>!want.includes(x));
+ if(del.length){wsSend('UNSUBSCRIBE',del);for(const x of del)WS.subs.delete(x)}
+ if(add.length){wsSend('SUBSCRIBE',add);for(const x of add)WS.subs.add(x)}}
+function wsConnect(want){clearTimeout(WS.timer);WS.closing=false;WS.state='connecting';setStatus();
+ let sock;try{sock=new WebSocket(wsBase()+'/stream?streams='+want.join('/'))}catch(e){wsRetry();return}
+ WS.sock=sock;WS.subs=new Set(want);
+ sock.onopen=()=>{if(WS.sock!==sock)return;WS.state='live';WS.retry=0;WS.last=Date.now();setStatus();wsSync()};
+ sock.onmessage=ev=>{if(WS.sock!==sock)return;WS.last=Date.now();let m;try{m=JSON.parse(ev.data)}catch(e){return}const d=m&&m.data;if(!d)return;
+  if(d.e==='24hrMiniTicker'){const p=+d.c;if(p>0){S.px[d.s]=p;S.pxAt=Date.now();WS.dirty=true}return}
+  if(d.e==='kline'){const k=d.k;S.kl[d.s+'|'+k.i]={t:k.t,o:+k.o,h:+k.h,l:+k.l,c:+k.c,x:k.x};S.px[d.s]=+k.c;S.pxAt=Date.now();WS.dirty=true;
+   if(k.x&&d.s==='BTCUSDT'&&k.i===MODES[cfg.mode].E&&cfg.auto==='bar'&&k.t>WS.barSeen){WS.barSeen=k.t;setTimeout(()=>{const bar=Math.floor((Date.now()-2000)/TFMS[k.i]);if(bar>(S.scanBar||0))scan()},3000)}}};
+ sock.onclose=()=>{if(WS.sock!==sock)return;WS.sock=null;WS.subs=new Set();if(WS.closing){WS.state='off'}else{WS.state='down';wsRetry()}setStatus();paintPrices()};
+ sock.onerror=()=>{try{sock.close()}catch(e){}}}
+function wsRetry(){clearTimeout(WS.timer);WS.state='down';const ms=Math.min(30000,1000*2**WS.retry++)+Math.random()*500;WS.timer=setTimeout(()=>{if(live&&cfg.ws&&!document.hidden)wsConnect(wsWanted());else if(live&&cfg.ws)WS.retry=0},ms)}
+function wsClose(){clearTimeout(WS.timer);WS.closing=true;if(WS.sock){try{WS.sock.close()}catch(e){}}WS.sock=null;WS.subs=new Set();WS.state='off'}
+/* repaint at most once per second; watchdog reconnects a silent socket */
+setInterval(()=>{if(WS.dirty&&!document.hidden){WS.dirty=false;paintPrices()}},1000);
+setInterval(()=>{if(WS.state==='live'&&Date.now()-WS.last>60000&&WS.sock){try{WS.sock.close()}catch(e){}}if(live&&cfg.ws&&!WS.sock&&WS.state!=='down'&&!document.hidden&&S.lastScan)wsSync()},15000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&live&&cfg.ws&&(!WS.sock||WS.sock.readyState>1)){WS.retry=0;wsSync()}});
+
 /* ---------- scan ---------- */
-function setStatus(msg){$('dot').className='dot'+(live?' live':'');$('stxt').textContent=msg||(live?t('st_live'):t('st_demo'))+(S.lastScan?' · '+t('scanned')+' '+hm(S.lastScan):'')}
+function setStatus(msg){$('dot').className='dot'+(live?' live':'');$('stxt').textContent=msg||(live?t('st_live')+' · '+t('ws_'+WS.state):t('st_demo'))+(S.lastScan?' · '+t('scanned')+' '+hm(S.lastScan):'')}
+function pxAgeTxt(){return !live||!S.pxAt?t('last_close'):WS.state==='live'&&Date.now()-S.pxAt<10000?t('px_rt'):t('upd')+' '+hm(S.pxAt)}
 function closest(ev){let best=null;for(const k of ['TF','BO','RV']){const c=ev.cand[k];if(!c)continue;if(!best||c.why.length<best.why.length)best={k,why:c.why}}return best}
 async function scan(){
- if(S.busy){S.again=true;return}S.busy=true;S.again=false;const C={...cfg},mode=C.mode;S.errs=[];$('scanBtn').disabled=true;const prog=$('prog');prog.style.width='4%';setStatus(t('scanning')+' '+MODE_LB[mode]+'…');
+ if(S.busy){S.again=true;return}S.busy=true;S.scanBar=Math.floor((Date.now()-2000)/TFMS[MODES[cfg.mode].E]);S.again=false;const C={...cfg},mode=C.mode;S.errs=[];$('scanBtn').disabled=true;const prog=$('prog');prog.style.width='4%';setStatus(t('scanning')+' '+MODE_LB[mode]+'…');
  try{
   const syms=await universe(C);if(!syms.includes('BTCUSDT'))syms.unshift('BTCUSDT');let done=0;const res=[];
   await pool(syms,4,async sym=>{const X=await loadBundle(sym,mode,420);const i=X.E.n-1,ev=evalAt(X,i,C);S.cache[sym+mode]=X;const back=Math.round(864e5/TFMS[X.tfE]);
@@ -862,7 +900,7 @@ async function scan(){
   S.alerts=S.alerts.filter(a=>a.sig).slice(0,200);LS.set('alerts',S.alerts);
   if(live&&C.tgOn&&fresh.length)(async()=>{for(const a of fresh.slice(0,8)){try{await sendTg(planText(a.sym,a.mode,a.sig,false,a.prob,a.ex));await sleep(1100)}catch(e){setStatus('Telegram: '+e.message);break}}})();
   const top=S.results.find(r=>r.sig);if(!S.dSym||!S.results.some(r=>r.sym===S.dSym&&r.sig))S.dSym=top?top.sym:'BTCUSDT';
-  setStatus();renderAll();refreshPrices()
+  setStatus();renderAll();wsSync();refreshPrices()
  }catch(e){setStatus(t('scan_failed')+': '+(e.message||e))}
  finally{S.busy=false;$('scanBtn').disabled=false;setTimeout(()=>prog.style.width='0',600);if(S.again){S.again=false;setTimeout(scan,50)}}}
 
@@ -875,10 +913,11 @@ function chartKey(){const k=`<span><i style="background:var(--tf);opacity:.55"><
 function drawChart(el,d){
  const s=el.querySelector('svg'),W=el.clientWidth,H=el.clientHeight;if(!W||!H||!d)return;
  if(d.kind==='eq')return drawEq(s,W,H,d);
- const X=d.X,I=X.E,vw=X.vw,cnt=Math.min(I.n,W<520?70:W<800?110:150),a0=I.n-cnt,L=6,R=d.sig&&W>=520?168:W<520?92:108,T0=10,B=22,ph=Math.round((H-T0-B)*0.74),aTop=T0+ph+14,ah=H-B-aTop;
+ const X=d.X,I=X.E,vw=X.vw,kk=d.sym&&S.kl[d.sym+'|'+X.tfE],fk=kk&&kk.t>I.b[I.n-1].t&&kk.t-I.b[I.n-1].t<=TFMS[X.tfE]?kk:null,cnt=Math.min(I.n,W<520?70:W<800?110:150),a0=I.n-cnt,L=6,R=d.sig&&W>=520?168:W<520?92:108,T0=10,B=22,ph=Math.round((H-T0-B)*0.74),aTop=T0+ph+14,ah=H-B-aTop;
  let lo=Infinity,hi=-Infinity;for(let i=a0;i<I.n;i++){lo=Math.min(lo,I.l[i],I.bbL[i]||Infinity,vw[i]||Infinity);hi=Math.max(hi,I.h[i],I.bbU[i]||-Infinity,vw[i]||-Infinity)}
+ if(fk){lo=Math.min(lo,fk.l);hi=Math.max(hi,fk.h)}
  const sg=d.sig,np=d.sym?nowPx(d.sym):NaN;if(sg){lo=Math.min(lo,sg.stop);hi=Math.max(hi,sg.tp2)}if(isFinite(np)){lo=Math.min(lo,np);hi=Math.max(hi,np)}const pad=(hi-lo)*0.04;lo-=pad;hi+=pad;
- const cw=(W-L-R)/cnt,x=i=>L+(i-a0+0.5)*cw,y=p=>T0+(hi-p)/(hi-lo)*ph,bw=Math.max(1,cw*0.62),xr=W-R;
+ const cw=(W-L-R)/(cnt+(fk?1:0)),x=i=>L+(i-a0+0.5)*cw,y=p=>T0+(hi-p)/(hi-lo)*ph,bw=Math.max(1,cw*0.62),xr=W-R;
  let g='';const step=(hi-lo)/4;
  for(let k=0;k<=4;k++){const p=lo+step*k,yy=y(p);g+=`<line x1="${L}" x2="${xr}" y1="${yy}" y2="${yy}" stroke="var(--rule)"/>`;if(!sg&&k>0)g+=`<text x="${xr+6}" y="${yy+4}">${fmtP(p)}</text>`}
  const line=(arr,col,w,extra='')=>{let p='',prev=false;for(let i=a0;i<I.n;i++){if(isNaN(arr[i])){prev=false;continue}p+=(prev?'L':'M')+x(i).toFixed(1)+','+y(arr[i]).toFixed(1);prev=true}return`<path d="${p}" fill="none" stroke="${col}" stroke-width="${w}" ${extra}/>`};
@@ -891,6 +930,7 @@ function drawChart(el,d){
  if(sg&&sg.box){const x1=x(I.n-1-sg.box.N)-cw/2,x2=x(I.n-1)-cw/2;g+=`<rect x="${x1}" y="${y(sg.box.hi)}" width="${Math.max(0,x2-x1)}" height="${Math.max(1,y(sg.box.lo)-y(sg.box.hi))}" fill="var(--bo)" opacity=".12" stroke="var(--bo)" stroke-dasharray="3 2"/>`}
  for(let i=a0;i<I.n;i++){const up=I.c[i]>=I.o[i],xx=x(i),yo=y(I.o[i]),yc=y(I.c[i]);
   g+=`<line x1="${xx}" x2="${xx}" y1="${y(I.h[i])}" y2="${y(I.l[i])}" stroke="var(--ink)"/><rect x="${xx-bw/2}" y="${Math.min(yo,yc)}" width="${bw}" height="${Math.max(1,Math.abs(yc-yo))}" fill="${up?'var(--bg)':'var(--ink)'}" stroke="var(--ink)"/>`}
+ if(fk){const xx=x(I.n),yo=y(fk.o),yc=y(fk.c);g+=`<g opacity=".55"><line x1="${xx}" x2="${xx}" y1="${y(fk.h)}" y2="${y(fk.l)}" stroke="var(--ink)" stroke-dasharray="2 2"/><rect x="${xx-bw/2}" y="${Math.min(yo,yc)}" width="${bw}" height="${Math.max(1,Math.abs(yc-yo))}" fill="${fk.c>=fk.o?'var(--bg)':'var(--ink)'}" stroke="var(--ink)" stroke-dasharray="2 2"/></g>`}
  if(Z&&LY.smc){for(const e of Z.ev.filter(e=>e.to>=a0).slice(-4)){const x1=x(Math.max(e.from,a0)),x2=x(e.to),yy=y(e.p),col=e.dir>0?'var(--tp)':'var(--sl)';g+=`<line x1="${x1}" x2="${x2}" y1="${yy}" y2="${yy}" stroke="${col}" stroke-width="1.3" stroke-dasharray="${e.type==='CHoCH'?'5 3':''}"/><text x="${Math.max(L+24,(x1+x2)/2)}" y="${yy+(e.dir>0?-5:14)}" text-anchor="middle" style="fill:${col};font-weight:600">${e.type}</text>`}
   for(const q of Z.sw.filter(q=>q.i>=a0&&q.lb).slice(-6))g+=`<text x="${x(q.i)}" y="${q.hi?y(q.p)-7:y(q.p)+17}" text-anchor="middle" style="font-weight:600">${q.lb}</text>`;
   if(isFinite(Z.eq)&&Z.eq>lo&&Z.eq<hi)g+=`<line x1="${L}" x2="${xr}" y1="${y(Z.eq)}" y2="${y(Z.eq)}" stroke="var(--mute)" stroke-dasharray="8 4" opacity=".7"/><text x="${L+4}" y="${y(Z.eq)-4}">EQ 50%</text>`}
@@ -960,7 +1000,7 @@ function renderPlan(r){const el=$('planCard');
  const s=r.sig,z=sizeFor(s,r.sym),base=r.sym.replace('USDT',''),g=guardState();
  el.innerHTML=`<div class="ph"><div><span class="pill ${s.strat}">${pbName(s)}</span><b style="margin-top:6px">${r.sym} · ${MODE_LB[S.scanMode]}</b></div><div class="score">${t('c_trend')} ${r.score}/10<br>${t('c_score')}<br><b>${s.score}</b><span>/100</span></div></div>
  ${g.st!=='GO'?`<p class="warnbox" style="border-left-color:var(--sl)"><b>${t('g_'+g.st)}</b>: ${esc(g.why)}. ${t('guard_warn')}</p>`:''}
- <div class="nowrow"><div><small>${t('now_price')} · <span id="pxAge">${live&&S.pxAt?t('upd')+' '+hm(S.pxAt):t('last_close')}</span></small><br><b class="live" data-px="${r.sym}">${fmtP(nowPx(r.sym))}</b> <small>${t('now_entry')}: <b style="font-size:13px"><span data-s="${r.sym}" data-pxe="${s.entry}">${pct(s.entry/nowPx(r.sym)-1)}</span></b></small></div><span class="stt" data-pst="${r.sym}"></span></div>
+ <div class="nowrow"><div><small>${t('now_price')} · <span id="pxAge">${pxAgeTxt()}</span></small><br><b class="live" data-px="${r.sym}">${fmtP(nowPx(r.sym))}</b> <small>${t('now_entry')}: <b style="font-size:13px"><span data-s="${r.sym}" data-pxe="${s.entry}">${pct(s.entry/nowPx(r.sym)-1)}</span></b></small></div><span class="stt" data-pst="${r.sym}"></span></div>
  <div class="rung" style="border-left-color:transparent;padding-block:4px;font-size:12.5px;color:var(--mute)"><span class="lb" style="font-weight:400">${t('lvl')}</span><span>${t('c_price')}</span><span class="ds" style="color:var(--mute)">${t('from_entry')}</span></div>
  <div class="ladder">${rungs(s).map(w=>`<div class="rung ${w.c}"><span class="lb">${w.lb}</span><span class="px">${fmtP(w.px)}</span><span class="ds">${w.ds}</span><span class="nt">${w.nt}</span></div>`).join('')}</div>
  ${z?`<div class="psize"><div>${t('sz')}<b>${fmtQ(z.qty)} ${base}</b></div><div>${t('val')}<b>${fmtU(z.val)} $</b></div><div>${t('rk')}<b>${fmtU(z.risk)} $</b></div></div>${s.sizeMult<1?`<p class="note" style="margin:-4px 0 8px">${t('size_note',s.sizeMult)}</p>`:''}${z.capped?`<p class="note" style="margin:-4px 0 8px">${t('r_cap',cfg.maxAlloc,cfg.risk)}</p>`:''}${z.tooSmall?`<p class="warnbox" style="margin:0 0 8px">${t('too_small')}</p>`:''}`:''}
@@ -988,7 +1028,7 @@ async function loadChart(){
   const i=X.E.n-1,ev=evalAt(X,i,cfg),m=marksFor(X,X.E.n-150);if(ev)ev.smc=smcSummary(X.E);
   if(live&&!S.px[sym])api('/api/v3/ticker/price',{symbol:sym}).then(a=>{if(a&&a.price){S.px[sym]=+a.price;paintPrices()}}).catch(()=>{});
   $('cTitle').textContent=sym+' · '+MODE_LB[mode];$('cInfo').innerHTML=`<span>${t('now')} <b class="live" data-px="${sym}">${fmtP(nowPx(sym))}</b></span>`+(ev?(ev.sig?`<span class="pill ${ev.sig.strat}">${pbName(ev.sig)}</span>`:'')+infoSpans(ev):'');
-  plot($('cFig'),{X,sym,sig:ev&&ev.sig,marks:m});$('cDiag').innerHTML=ev?diagBlock(ev):'';
+  plot($('cFig'),{X,sym,sig:ev&&ev.sig,marks:m});S.chart={sym,tf:X.tfE};wsSync();$('cDiag').innerHTML=ev?diagBlock(ev):'';
   $('cHist').innerHTML=`<thead><tr><th>${t('c_bar')}</th><th>${t('c_signal')}</th><th class="n">${t('c_score')}</th><th class="n">${t('c_trend')}</th><th class="n">Entry</th><th class="n">SL</th><th class="n">TP1</th><th class="n">TP2</th></tr></thead><tbody>`+(m.length?m.slice().reverse().slice(0,15).map(x=>`<tr><td>${tstr(x.t)}</td><td><span class="pill ${x.strat}">${pbName(x.sig)}</span></td><td class="n">${x.sig.score}</td><td class="n">${x.score}/10</td><td class="n">${fmtP(x.sig.entry)}</td><td class="n sl">${fmtP(x.sig.stop)} <small>${pct(x.sig.stop/x.sig.entry-1)}</small></td><td class="n tp">${fmtP(x.sig.tp1)} <small>${pct(x.sig.tp1/x.sig.entry-1)}</small></td><td class="n tp">${fmtP(x.sig.tp2)} <small>${pct(x.sig.tp2/x.sig.entry-1)}</small></td></tr>`).join(''):`<tr><td colspan="8"><div class="empty">${t('nohist')}</div></td></tr>`)+'</tbody>'
  }catch(e){$('cTitle').textContent=sym+' · '+(e.message||'error')}}
 let lastBt=null;
@@ -1062,11 +1102,11 @@ $('aTestSig').onclick=async()=>{const x=testSignal();if(!x){$('tgMsg').textConte
 $('aCopy').onclick=async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(S.alerts.map(a=>plainText(planText(a.sym,a.mode,a.sig,a.demo,a.prob,a.ex))).join('\n\n— — —\n\n'));flash(b,t('copied'))}catch(err){flash(b,t('failed'))}};
 $('aClear').onclick=()=>{S.alerts=[];LS.set('alerts',[]);renderAlerts()};
 $('aAuto').onchange=e=>{cfg.auto=e.target.value;LS.set('cfg',cfg)};
-$('cfgForm').onsubmit=e=>{e.preventDefault();for(const k in DEF){const el=$('k_'+k);if(!el)continue;cfg[k]=el.type==='checkbox'?el.checked:typeof DEF[k]==='number'?(el.value===''||isNaN(+el.value)?DEF[k]:+el.value):el.value.trim()}LS.set('cfg',cfg);S.cache={};figs.delete($('cFig'));$('cfgMsg').textContent=t('saved');fillCfg();calc();renderGuard();probeLive().then(scan)};
+$('cfgForm').onsubmit=e=>{e.preventDefault();for(const k in DEF){const el=$('k_'+k);if(!el)continue;cfg[k]=el.type==='checkbox'?el.checked:typeof DEF[k]==='number'?(el.value===''||isNaN(+el.value)?DEF[k]:+el.value):el.value.trim()}LS.set('cfg',cfg);S.cache={};figs.delete($('cFig'));$('cfgMsg').textContent=t('saved');fillCfg();calc();renderGuard();wsClose();probeLive().then(scan)};
 $('cfgReset').onclick=()=>{const keep={tgToken:cfg.tgToken,tgChat:cfg.tgChat,tgOn:cfg.tgOn};cfg={...DEF,...keep};LS.set('cfg',cfg);fillCfg();$('cfgMsg').textContent=t('restored')};
 setInterval(refreshPrices,15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshPrices()});
 setInterval(()=>{const c=$('clk');if(c)c.textContent=hm(Date.now());if(S.busy||!S.lastScan)return;const now=Date.now();
- if(cfg.auto==='bar'){const ms=TFMS[MODES[S.scanMode].E],bar=Math.floor((now-8000)/ms);if(bar>Math.floor((S.lastScan-8000)/ms))scan()}
+ if(cfg.auto==='bar'){const ms=TFMS[MODES[cfg.mode].E],bar=Math.floor((now-(WS.state==='live'?20000:8000))/ms);if(bar>(S.scanBar||0))scan()}
  else if(+cfg.auto>0&&now-S.lastScan>=+cfg.auto*6e4)scan()},5000);
 
 fillCfg();applyLang();applyTheme();paintLayers();route();
